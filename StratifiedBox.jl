@@ -100,29 +100,29 @@ function save_gadget_ics(filename, pos, vel, id_gas, mass, u_gas, Ngas, boxsize)
 
     fid=h5open(filename,"w")
 
-    grp_head = g_create(fid,"Header");
-    attrs(fid["Header"])["NumPart_ThisFile"]       = Int32[Ngas, 0, 0, 0, 0, 0]
-    attrs(fid["Header"])["MassTable"]              = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-    attrs(fid["Header"])["Time"]                   = 0.0
-    attrs(fid["Header"])["Redshift"]               = 0.0
-    attrs(fid["Header"])["Flag_Sfr"]               = 0
-    attrs(fid["Header"])["Flag_Feedback"]          = 0
-    attrs(fid["Header"])["NumPart_Total"]          = Int32[Ngas, 0, 0, 0, 0, 0]
-    attrs(fid["Header"])["Flag_Cooling"]           = 0
-    attrs(fid["Header"])["NumFilesPerSnapshot"]    = 1
-    attrs(fid["Header"])["BoxSize"]                = boxsize
-    attrs(fid["Header"])["Omega0"]                 = 0.27
-    attrs(fid["Header"])["OmegaLambda"]            = 0.73
-    attrs(fid["Header"])["HubbleParam"]            = 1.0
-    attrs(fid["Header"])["Flag_StellarAge"]        = 0
-    attrs(fid["Header"])["Flag_Metals"]            = 0
-    attrs(fid["Header"])["NumPart_Total_HighWord"] = UInt32[0,0,0,0,0,0]
-    attrs(fid["Header"])["flag_entropy_instead_u"] = 0
-    attrs(fid["Header"])["Flag_DoublePrecision"]   = 0
-    attrs(fid["Header"])["Flag_IC_Info"]           = 0
-    #attrs(fid["Header"])["lpt_scalingfactor"] =
+    grp_head = create_group(fid,"Header");
+    attributes(fid["Header"])["NumPart_ThisFile"]       = Int32[Ngas, 0, 0, 0, 0, 0]
+    attributes(fid["Header"])["MassTable"]              = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    attributes(fid["Header"])["Time"]                   = 0.0
+    attributes(fid["Header"])["Redshift"]               = 0.0
+    attributes(fid["Header"])["Flag_Sfr"]               = 0
+    attributes(fid["Header"])["Flag_Feedback"]          = 0
+    attributes(fid["Header"])["NumPart_Total"]          = Int32[Ngas, 0, 0, 0, 0, 0]
+    attributes(fid["Header"])["Flag_Cooling"]           = 0
+    attributes(fid["Header"])["NumFilesPerSnapshot"]    = 1
+    attributes(fid["Header"])["BoxSize"]                = boxsize
+    attributes(fid["Header"])["Omega0"]                 = 0.27
+    attributes(fid["Header"])["OmegaLambda"]            = 0.73
+    attributes(fid["Header"])["HubbleParam"]            = 1.0
+    attributes(fid["Header"])["Flag_StellarAge"]        = 0
+    attributes(fid["Header"])["Flag_Metals"]            = 0
+    attributes(fid["Header"])["NumPart_Total_HighWord"] = UInt32[0,0,0,0,0,0]
+    attributes(fid["Header"])["flag_entropy_instead_u"] = 0
+    attributes(fid["Header"])["Flag_DoublePrecision"]   = 0
+    attributes(fid["Header"])["Flag_IC_Info"]           = 0
+    #attributes(fid["Header"])["lpt_scalingfactor"] =
 
-    grp_part = g_create(fid,"PartType0");
+    grp_part = create_group(fid,"PartType0");
     h5write(filename, "PartType0/Coordinates"   , T.(pos))
     h5write(filename, "PartType0/Velocities"    , T.(vel))
     h5write(filename, "PartType0/ParticleIDs"   , id_gas)
@@ -132,7 +132,7 @@ function save_gadget_ics(filename, pos, vel, id_gas, mass, u_gas, Ngas, boxsize)
     close(fid)
 end
 
-par = Params{3,Float64}(T_mu=1e4, LX=1., LZ=10, Ngas=10000000, Mgas_tot=1e-3, scale_height=0.25);
+par = Params{3,Float64}(T_mu=1e4, LX=1., LZ=10, Ngas=3000000, Mgas_tot=2e-3, scale_height=0.1);
 pos, vel, id_gas, mass, u, Ngas, LX = generate_ICfile_glass_box(par);
 clf()
 plot(pos[1,:], pos[3,:], ".", ms=0.3)
